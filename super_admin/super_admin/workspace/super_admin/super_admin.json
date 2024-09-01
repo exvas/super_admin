@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"yhV1CTulKw\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Super Admin</span>\",\"col\":12}},{\"id\":\"2u_nKaWZ8D\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Users Role\",\"col\":3}}]",
+ "content": "[{\"id\":\"yhV1CTulKw\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Super Admin</span>\",\"col\":12}},{\"id\":\"2u_nKaWZ8D\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Users Role\",\"col\":3}},{\"id\":\"_eC47lB_Cy\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"User Permission\",\"col\":3}},{\"id\":\"JGpl79CQ4Y\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Role\",\"col\":3}},{\"id\":\"qEa_st5a_b\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Permission Inspector\",\"col\":3}},{\"id\":\"1Ml31sexwm\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Role Permission for Page and Report\",\"col\":3}},{\"id\":\"3HjJU_ETGY\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Role Permissions Manager\",\"col\":3}}]",
  "creation": "2024-09-01 12:01:13.168190",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "Super Admin",
  "links": [],
- "modified": "2024-09-01 12:02:31.429039",
+ "modified": "2024-09-01 12:30:34.000253",
  "modified_by": "Administrator",
  "module": "Super Admin",
  "name": "Super Admin",
@@ -35,6 +35,43 @@
    "label": "Users Role",
    "link_to": "Users Role",
    "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "User Permission",
+   "link_to": "User Permission",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Role Permission for Page and Report",
+   "link_to": "Role Permission for Page and Report",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Role Permissions Manager",
+   "link_to": "permission-manager",
+   "type": "Page"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Role",
+   "link_to": "Role",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Permission Inspector",
+   "link_to": "Permission Inspector",
    "type": "DocType"
   }
  ],
