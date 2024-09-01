@@ -1,0 +1,42 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"yhV1CTulKw\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Super Admin</span>\",\"col\":12}},{\"id\":\"2u_nKaWZ8D\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Users Role\",\"col\":3}}]",
+ "creation": "2024-09-01 12:01:13.168190",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "users",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Super Admin",
+ "links": [],
+ "modified": "2024-09-01 12:02:31.429039",
+ "modified_by": "Administrator",
+ "module": "Super Admin",
+ "name": "Super Admin",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "Users",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 22.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Users Role",
+   "link_to": "Users Role",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Super Admin"
+}
