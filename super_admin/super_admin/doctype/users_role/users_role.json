@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:document_name",
  "creation": "2024-09-01 11:57:15.619826",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -26,15 +27,17 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Document Name",
-   "reqd": 1
+   "reqd": 1,
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-01 11:58:52.239768",
+ "modified": "2024-09-03 15:22:39.708622",
  "modified_by": "Administrator",
  "module": "Super Admin",
  "name": "Users Role",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
