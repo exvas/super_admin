@@ -6,7 +6,6 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "user",
   "allow",
   "applicable_for",
   "column_break_xfnc",
@@ -16,13 +15,6 @@
   "hide_descendants"
  ],
  "fields": [
-  {
-   "fieldname": "user",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "User",
-   "options": "User"
-  },
   {
    "fieldname": "column_break_xfnc",
    "fieldtype": "Column Break"
@@ -36,10 +28,11 @@
   },
   {
    "fieldname": "for_value",
-   "fieldtype": "Link",
+   "fieldtype": "Dynamic Link",
+   "ignore_user_permissions": 1,
    "in_list_view": 1,
    "label": "For Value",
-   "options": "Dynamic Link"
+   "options": "allow"
   },
   {
    "default": "0",
@@ -49,15 +42,15 @@
    "label": "Is Default"
   },
   {
-   "default": "0",
+   "default": "1",
    "fieldname": "apply_to_all_document_types",
    "fieldtype": "Check",
    "label": "Apply To All Document Types"
   },
   {
+   "depends_on": "eval:doc.apply_to_all_document_types==0",
    "fieldname": "applicable_for",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Applicable For",
    "options": "DocType"
   },
@@ -71,7 +64,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-09-01 11:56:53.214722",
+ "modified": "2024-09-04 14:56:47.996553",
  "modified_by": "Administrator",
  "module": "Super Admin",
  "name": "Users Role Details",
