@@ -225,3 +225,6 @@ doc_events = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
+fixtures = [
+	{"dt":"Property Setter","filters":[["module","in",["Super Admin"]]]}
+]
