@@ -47,6 +47,12 @@ def create_user_permission(doc, method):
                 user_permission.for_value = linked_employee if linked_employee else role_detail.for_value
             else:
                 user_permission.for_value = role_detail.for_value
+            if role_detail.allow == "User":
+                linked_user = frappe.db.get_value("User", {"name": user.name})
+                user_permission.for_value = linked_user if linked_user else role_detail.for_value
+
+
+
 
             user_permission.applicable_for = role_detail.applicable_for
             user_permission.is_default = role_detail.is_default
