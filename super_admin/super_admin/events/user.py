@@ -59,7 +59,7 @@ def create_user_permission(doc, method):
             user_permission.apply_to_all_doctypes = role_detail.apply_to_all_document_types
             user_permission.hide_descendants = role_detail.hide_descendants
 
-            user_permission.insert(ignore_permissions=True)
+            user_permission.save()
 
     frappe.db.commit()
 
