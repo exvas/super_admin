@@ -122,11 +122,11 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-doc_events = {
- "User": {
-        "on_update":"super_admin.super_admin.events.user.create_user_permission"
-	},
-}
+# doc_events = {
+#  "User": {
+#         "on_update":"super_admin.super_admin.events.user.create_user_permission"
+# 	},
+# }
 
 # Scheduled Tasks
 # ---------------
