@@ -68,12 +68,13 @@ app_license = "mit"
 # ------------
 
 # before_install = "super_admin.install.before_install"
-# after_install = "super_admin.install.after_install"
+after_migrate = "super_admin.install.after_migrate"
+after_install = "super_admin.install.after_install"
 
 # Uninstallation
 # ------------
 
-# before_uninstall = "super_admin.uninstall.before_uninstall"
+before_uninstall = "super_admin.install.before_uninstall"
 # after_uninstall = "super_admin.uninstall.after_uninstall"
 
 # Integration Setup
@@ -122,11 +123,11 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-#  "User": {
-#         "on_update":"super_admin.super_admin.events.user.create_user_permission"
-# 	},
-# }
+doc_events = {
+ "User": {
+        "on_update":"super_admin.super_admin.events.user.create_user_permission"
+	},
+}
 
 # Scheduled Tasks
 # ---------------
