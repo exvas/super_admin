@@ -13,10 +13,11 @@ def create_user_permission(doc, method):
 
     user_role = frappe.get_doc("Users Role", user.custom_user_role)
 
-    # Create a set of current permissions from the role
+    # Create a set of current permissions from the role (Exclude Employee)
     current_permissions = {
         (role_detail.allow, role_detail.for_value)
         for role_detail in user_role.users_role_details
+        if role_detail.allow != "Employee"
     }
 
     # Get existing user permissions for this user
@@ -28,12 +29,20 @@ def create_user_permission(doc, method):
 
     # Remove permissions that no longer exist in the role
     for permission in existing_permissions:
+        # Skip Employee permissions to prevent automatic deletion/management
+        if permission["allow"] == "Employee":
+            continue
+
         permission_tuple = (permission["allow"], permission["for_value"])
         if permission_tuple not in current_permissions:
             frappe.delete_doc("User Permission", permission["name"], ignore_permissions=True)
 
     # Add new permissions based on role details
     for role_detail in user_role.users_role_details:
+        # Skip automatic creation for 'Employee' as per user request
+        if role_detail.allow == "Employee":
+            continue
+
         permission_exists = frappe.get_all(
             "User Permission",
             filters={
@@ -49,16 +58,8 @@ def create_user_permission(doc, method):
             user_permission.user = user.name
             user_permission.allow = role_detail.allow
 
-            # Handle specific logic for 'Employee' and 'User' doctypes
-            if role_detail.allow == "Employee":
-                linked_employee = frappe.db.get_value("Employee", {"user_id": user.name}, "name")
-                if linked_employee:
-                    user_permission.for_value = linked_employee
-                else:
-                    frappe.log_error(f"Employee record not found for user: {user.name}", "Missing Employee")
-                    continue  # Skip adding this permission
-
-            elif role_detail.allow == "User":
+            # Handle specific logic for 'User' doctype
+            if role_detail.allow == "User":
                 linked_user = frappe.db.get_value("User", {"name": user.name})
                 if linked_user:
                     user_permission.for_value = linked_user
