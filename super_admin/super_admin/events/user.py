@@ -1,82 +1,54 @@
 
-               
 import frappe
 from frappe.model.document import Document
 
 @frappe.whitelist()
 def create_user_permission(doc, method):
-    user = frappe.get_doc("User", doc.name)
-    
-    # Skip if no custom user role is assigned
-    if not user.custom_user_role:
+    """
+    Synchronize User Permissions based on the 'Users Role' assigned to the User.
+    This version is ADDITIVE-ONLY: it will add missing permissions but NEVER delete existing ones.
+    """
+    if not doc.custom_user_role:
         return
 
-    user_role = frappe.get_doc("Users Role", user.custom_user_role)
+    try:
+        user_role = frappe.get_doc("Users Role", doc.custom_user_role)
+    except frappe.DoesNotExistError:
+        return
 
-    # Create a set of current permissions from the role (Exclude Employee)
-    current_permissions = {
-        (role_detail.allow, role_detail.for_value)
-        for role_detail in user_role.users_role_details
-        if role_detail.allow != "Employee"
-    }
-
-    # Get existing user permissions for this user
-    existing_permissions = frappe.get_all(
-        "User Permission",
-        filters={"user": user.name},
-        fields=["name", "allow", "for_value"]
+    # 1. Get current permissions for this user to avoid duplicates
+    existing_perms = frappe.get_all("User Permission", 
+        filters={"user": doc.name}, 
+        fields=["allow", "for_value"]
     )
+    current_perm_set = {(p.allow, p.for_value) for p in existing_perms}
 
-    # Remove permissions that no longer exist in the role
-    for permission in existing_permissions:
-        # Skip Employee permissions to prevent automatic deletion/management
-        if permission["allow"] == "Employee":
+    # 2. Add missing permissions from User Role
+    added_count = 0
+    for detail in user_role.users_role_details:
+        if not detail.allow or not detail.for_value:
             continue
+            
+        perm_key = (detail.allow, detail.for_value)
+        
+        if perm_key not in current_perm_set:
+            try:
+                # Add the permission
+                from frappe.permissions import add_user_permission
+                add_user_permission(
+                    doctype=detail.allow,
+                    name=detail.for_value,
+                    user=doc.name,
+                    is_default=detail.is_default,
+                    applicable_for=detail.applicable_for if not detail.apply_to_all_document_types else None,
+                    hide_descendants=detail.hide_descendants
+                )
+                added_count += 1
+                current_perm_set.add(perm_key)
+            except Exception as e:
+                frappe.log_error(f"Error adding permission in Super Admin: {str(e)}", "Permission Sync")
 
-        permission_tuple = (permission["allow"], permission["for_value"])
-        if permission_tuple not in current_permissions:
-            frappe.delete_doc("User Permission", permission["name"], ignore_permissions=True)
+    if added_count > 0:
+        frappe.msgprint(f"Synced {added_count} new permissions for {doc.name}", alert=True)
 
-    # Add new permissions based on role details
-    for role_detail in user_role.users_role_details:
-        # Skip automatic creation for 'Employee' as per user request
-        if role_detail.allow == "Employee":
-            continue
-
-        permission_exists = frappe.get_all(
-            "User Permission",
-            filters={
-                "user": user.name,
-                "allow": role_detail.allow,
-                "for_value": role_detail.for_value
-            }
-        )
-
-        # Skip if permission already exists
-        if not permission_exists:
-            user_permission = frappe.new_doc("User Permission")
-            user_permission.user = user.name
-            user_permission.allow = role_detail.allow
-
-            # Handle specific logic for 'User' doctype
-            if role_detail.allow == "User":
-                linked_user = frappe.db.get_value("User", {"name": user.name})
-                if linked_user:
-                    user_permission.for_value = linked_user
-                else:
-                    frappe.log_error(f"User record not found for user: {user.name}", "Missing User")
-                    continue  # Skip adding this permission
-
-            else:
-                user_permission.for_value = role_detail.for_value or ""  
-
-            # Set additional fields
-            user_permission.applicable_for = role_detail.applicable_for
-            user_permission.is_default = role_detail.is_default
-            user_permission.apply_to_all_doctypes = role_detail.apply_to_all_document_types
-            user_permission.hide_descendants = role_detail.hide_descendants
-
-            # Save the permission
-            user_permission.save(ignore_permissions=True)
-
-    frappe.db.commit()
+    return

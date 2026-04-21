@@ -126,7 +126,7 @@ before_uninstall = "super_admin.install.before_uninstall"
 doc_events = {
  "User": {
         "on_update":"super_admin.super_admin.events.user.create_user_permission"
-	},
+	}
 }
 
 # Scheduled Tasks
